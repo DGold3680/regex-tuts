@@ -1,0 +1,77 @@
+
+<html>
+  <head>
+    <title>Regex</title>
+    <style>input{margin:10px;display:block;}</style>
+  </head>
+  <body>
+    <form>
+      <label for="max">Enter a maximum of 10 characters</label>
+      <input id="max"/>
+      <label for="minMax">Enter a value between 120-500</label>
+      <input id="minMax"/>
+      <label for="telephone">Enter an international phone number</label>
+      <input id="telephone"/>
+      <label for="time">Enter the time in hh/mm format</label>
+      <input id="time"/>
+      <label for="email">Enter email</label>
+      <input id="email"/>
+      <label for="password">Enter a password.At least 8 characters,with a capital letter,a symbol,a number and no spaces</label>
+      <input id="password"/>
+      <label for="calc">Enter a valid mathematical expression that will work in a simple calculator </label>
+      <input id="calc"/>
+      <button>Submit</button>
+    </form>
+
+    <script>
+    const form=document.querySelector('form')
+    const maxInput=document.querySelector('#max')
+    const minMaxInput=document.querySelector('#minMax')
+    const telephoneInput=document.querySelector('#telephone')
+    const timeInput=document.querySelector('#time')
+    const emailInput=document.querySelector('#email')
+    const passwordInput=document.querySelector('#password')
+    const calcInput=document.querySelector('#calc')
+    
+//Our Regex
+    const maxRegex=/^\w\w{0,9}$/
+    const minMaxRegex=/^(1[2-9]\d)|([2-4]\d\d)|500$/
+    const telephoneRegex=/^\+\d{7}(\d{1,8})?$/
+    const timeRegex=/^(\d|[01]\d|2[0-3]):[0-5]\d$/
+    const emailRegex=/^([a-z\d\.-]+)@([a-z\d-]+)(\.[a-z]{2,5})(\.[a-z]{2,5})?$/
+    const calcRegex=/^\d+((\.\d+)?[\+\-×÷]\d+(\.\d+)?)+$/
+//array containing each seperate regex for our password validation
+    const passwordRegex=[/(\S{8})+/,/[A-Z]/,/\d/,/\W/]
+    
+ 
+//Validate user input by preventing form submission until the input matches the regex pattern  
+    const validateWithRegex=(input,regex)=>{
+    form.addEventListener('submit',(e)=>{
+    if(regex.test(input.value)){
+    input.style.border='3px solid green'
+    }else{e.preventDefault()
+    input.style.border='3px solid red'}
+    })}
+
+    validateWithRegex(maxInput,maxRegex)
+    validateWithRegex(minMaxInput,minMaxRegex)
+    validateWithRegex(telephoneInput,telephoneRegex)
+    validateWithRegex(timeInput,timeRegex)
+    validateWithRegex(emailInput,emailRegex)
+    validateWithRegex(calcInput,calcRegex)
+    
+//Validate password input seperately since it uses an array of regex  
+    const passwordValidate=(input,regex=[])=>{
+    form.addEventListener('submit',(e)=>{
+    if(regex[0].test(input.value)
+    &&regex[1].test(input.value)
+    &&regex[2].test(input.value)
+    &&regex[3].test(input.value)){input.style.border='3px solid green'
+    }else{e.preventDefault()
+    input.style.border='3px solid red'}
+    })}
+
+    passwordValidate(passwordInput,passwordRegex)
+    </script>
+  </body>
+</html>
